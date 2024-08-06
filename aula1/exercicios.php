@@ -10,6 +10,7 @@
     echo "---------------------------------";
 
 
+
     echo "<br>";
     echo "Exercicio 2";
     echo "<br>";
@@ -23,6 +24,8 @@
     echo "<br>";
     echo "---------------------------------";
 
+
+    
     echo "<br>";
     echo "Exercicio 3";
     echo "<br>";
