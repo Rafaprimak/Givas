@@ -6,8 +6,8 @@
     }else{
         $_SESSION['tipo'] = null;
     }
-    if (!isset($_SESSION['autenticacao']) || !$_SESSION['autenticacao' != true]){
+    if (!isset($_SESSION['autenticacao']) || $_SESSION['autenticacao'] != true){
         header('Location: ../../index.php?login=erro2');
-        exit();
+        exit;
     }
 ?>

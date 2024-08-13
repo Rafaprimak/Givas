@@ -1,9 +1,10 @@
 <?php
-  require_once 'validador_acesso.php';
+  require_once '../../validador_acesso.php';
   $chamados = array();
-  $arquivo = fopen('../../app_help_desk/arquivo.hd', 'r');
+  $arquivo = fopen('../../arquivo.hd', 'r');
   while(!feof($arquivo)){
-    $chamados[] = fgets($arquivo);
+    $registro = fgets($arquivo);
+    $chamados[] = $registro;
   }
   fclose($arquivo);
 ?>

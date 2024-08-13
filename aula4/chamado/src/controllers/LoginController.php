@@ -1,5 +1,5 @@
 <?php
-    require_once 'src/models/User.php';
+    require_once '../chamado/src/models/User.php';
     class LoginController{
         private $usuarios;
 
@@ -13,16 +13,18 @@
         public function autenticar($email, $senha){
             foreach($this->usuarios as $user){
                 if($user->email == $email && $user->verificarSenha($senha)){
+                    session_start();
                     $_SESSION['autenticacao'] = true;
                     $_SESSION['id'] = $user->id;
                     $_SESSION['tipo'] = $user->tipo;
-                    header('Location: ../src/views/home.php');
-                    return;
+                    header('Location: ../chamado/src/view/home.php');
+                    exit;
                 }
             }
+            session_start();
             $_SESSION['autenticacao'] = false;
             header('Location: index.php?login=erro');
-            exit();
+            exit;
         }
     }
 ?>
