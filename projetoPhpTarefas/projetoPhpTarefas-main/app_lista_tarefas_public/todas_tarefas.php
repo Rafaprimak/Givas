@@ -23,61 +23,54 @@
 
 		<script>
 			function editar(id, txt_tarefa) {
+				let form = document.createElement('form');
+				form.action = 'tarefa_controller.php?acao=atualizar';
+				form.method = 'post';
+				form.className = 'row';
 
-				//criar um form de edição
-				let form = document.createElement('form')
-				form.action = 'tarefa_controller.php?acao=atualizar'
-				form.method = 'post'
-				form.className = 'row'
+				let inputTarefa = document.createElement('input');
+				inputTarefa.type = 'text';
+				inputTarefa.name = 'tarefa';
+				inputTarefa.className = 'col-9 form-control';
+				inputTarefa.value = txt_tarefa;
 
-				//criar um input para entrada do texto
-				let inputTarefa = document.createElement('input')
-				inputTarefa.type = 'text'
-				inputTarefa.name = 'tarefa'
-				inputTarefa.className = 'col-9 form-control'
-				inputTarefa.value = txt_tarefa
+				let inputId = document.createElement('input');
+				inputId.type = 'hidden';
+				inputId.name = 'id';
+				inputId.value = id;
 
-				//criar um input hidden para guardar o id da tarefa
-				let inputId = document.createElement('input')
-				inputId.type = 'hidden'
-				inputId.name = 'id'
-				inputId.value = id
+				let button = document.createElement('button');
+				button.type = 'submit';
+				button.className = 'col-3 btn btn-info';
+				button.innerHTML = 'Atualizar';
 
-				//criar um button para envio do form
-				let button = document.createElement('button')
-				button.type = 'submit'
-				button.className = 'col-3 btn btn-info'
-				button.innerHTML = 'Atualizar'
+				form.appendChild(inputTarefa);
+				form.appendChild(inputId);
+				form.appendChild(button);
 
-				//incluir inputTarefa no form
-				form.appendChild(inputTarefa)
+				let tarefa = document.getElementById('tarefa_' + id);
+				tarefa.innerHTML = '';
+				tarefa.insertBefore(form, tarefa[0]);
+			}
 
-				//incluir inputId no form
-				form.appendChild(inputId)
+			function ordenarData() {
+				location.href = 'todas_tarefas.php?acao=ordenarData';
+			}
 
-				//incluir button no form
-				form.appendChild(button)
+			function ordenarPrioridade() {
+				location.href = 'todas_tarefas.php?acao=ordenarPrioridade';
+			}
 
-				//teste
-				//console.log(form)
-
-				//selecionar a div tarefa
-				let tarefa = document.getElementById('tarefa_'+id)
-
-				//limpar o texto da tarefa para inclusão do form
-				tarefa.innerHTML = ''
-
-				//incluir form na página
-				tarefa.insertBefore(form, tarefa[0])
-
+			function ordenarAlfabetica() {
+				location.href = 'todas_tarefas.php?acao=ordenarAlfabetica';
 			}
 
 			function remover(id) {
-				location.href = 'todas_tarefas.php?acao=remover&id='+id;
+				location.href = 'todas_tarefas.php?acao=remover&id=' + id;
 			}
 
 			function marcarRealizada(id) {
-				location.href = 'todas_tarefas.php?acao=marcarRealizada&id='+id;
+				location.href = 'todas_tarefas.php?acao=marcarRealizada&id=' + id;
 			}
 		</script>
 	</head>
@@ -89,6 +82,9 @@
 					<img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
 					App Lista Tarefas
 				</a>
+				<button class="btn btn-primary" onclick="ordenarData()">Ordenar por Data</button>
+            	<button class="btn btn-primary" onclick="ordenarPrioridade()">Ordenar por Prioridade</button>
+            	<button class="btn btn-primary" onclick="ordenarAlfabetica()">Ordenar Alfabeticamente</button>
 			</div>
 		</nav>
 
@@ -103,29 +99,23 @@
 				</div>
 
 				<div class="col-sm-9">
-					<div class="container pagina">
+					<div class="container">
 						<div class="row">
 							<div class="col">
-								<h4>Todas tarefas</h4>
+								<h4>Todas Tarefas</h4>
 								<hr />
-
-								<?php foreach($tarefas as $indice => $tarefa) { ?>
-									<div class="row mb-3 d-flex align-items-center tarefa">
+								<?php foreach($tarefas as $tarefa): ?>
+									<div class="row mb-3 d-flex align-items-center tarefa" data-data="<?= $tarefa->data_criacao ?>" data-prioridade="<?= $tarefa->id_status ?>">
 										<div class="col-sm-9" id="tarefa_<?= $tarefa->id ?>">
-											<?= $tarefa->tarefa ?> (<?= $tarefa->status ?>)
+											<?= $tarefa->tarefa ?> (<?= $tarefa->data_cadastrado ?>)
 										</div>
 										<div class="col-sm-3 mt-2 d-flex justify-content-between">
 											<i class="fas fa-trash-alt fa-lg text-danger" onclick="remover(<?= $tarefa->id ?>)"></i>
-											
-											<?php if($tarefa->status == 'pendente') { ?>
-												<i class="fas fa-edit fa-lg text-info" onclick="editar(<?= $tarefa->id ?>, '<?= $tarefa->tarefa ?>')"></i>
-												<i class="fas fa-check-square fa-lg text-success" onclick="marcarRealizada(<?= $tarefa->id ?>)"></i>
-											<?php } ?>
+											<i class="fas fa-edit fa-lg text-info" onclick="editar(<?= $tarefa->id ?>, '<?= $tarefa->tarefa ?>')"></i>
+											<i class="fas fa-check-square fa-lg text-success" onclick="marcarRealizada(<?= $tarefa->id ?>)"></i>
 										</div>
 									</div>
-
-								<?php } ?>
-								
+								<?php endforeach; ?>
 							</div>
 						</div>
 					</div>
