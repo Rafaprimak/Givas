@@ -10,14 +10,13 @@
 	if($acao == 'inserir' ) {
 		$tarefa = new Tarefa();
 		$tarefa->__set('tarefa', $_POST['tarefa']);
-
+		$tarefa->__set('prioridade', $_POST['prioridade']); 
 		$conexao = new Conexao();
-
 		$tarefaService = new TarefaService($conexao, $tarefa);
 		$tarefaService->inserir();
 
 		header('Location: nova_tarefa.php?inclusao=1');
-	
+
 	} else if($acao == 'recuperar') {
 		
 		$tarefa = new Tarefa();
@@ -87,42 +86,46 @@
 		$tarefas = $tarefaService->recuperarTarefasPendentes();
 	}
 	//Ordenação de Tarefas: Implementar a capacidade de ordenar as tarefas por diferentes critérios, como data de criação, prioridade, etc.
-	else if($acao == 'ordenarData') {
+	else if ($acao == 'ordenarData') {
 
 		$tarefa = new Tarefa();
 		$conexao = new Conexao();
-
 		$tarefaService = new TarefaService($conexao, $tarefa);
 		$tarefas = $tarefaService->ordenarData();
-		include 'todas_tarefas.php';
-	}
-	else if($acao == 'ordenarPrioridade') {
+
+	} else if ($acao == 'ordenarPrioridade') {
+
 		$tarefa = new Tarefa();
 		$conexao = new Conexao();
-
 		$tarefaService = new TarefaService($conexao, $tarefa);
 		$tarefas = $tarefaService->ordenarPrioridade();
-		include 'todas_tarefas.php';
 
-	}
-	else if($acao == 'ordenarAlfabetica') {
+	} else if ($acao == 'ordenarAlfabetica') {
+
 		$tarefa = new Tarefa();
 		$conexao = new Conexao();
-
 		$tarefaService = new TarefaService($conexao, $tarefa);
 		$tarefas = $tarefaService->ordenarAlfabetica();
-		include 'todas_tarefas.php';
 
-	}
-	else if($acao == 'recuperarTarefasConcluidas') {
+	} else if ($acao == 'recuperarTarefasPendentes') {
+
+		$tarefa = new Tarefa();
+		$tarefa->__set('id_status', 1);
+		$conexao = new Conexao();
+		$tarefaService = new TarefaService($conexao, $tarefa);
+		$tarefas = $tarefaService->recuperarTarefasPendentes();
+
+	} else if ($acao == 'recuperarTarefasConcluidas') {
+
 		$tarefa = new Tarefa();
 		$tarefa->__set('id_status', 2);
 		$conexao = new Conexao();
-
 		$tarefaService = new TarefaService($conexao, $tarefa);
 		$tarefas = $tarefaService->recuperarTarefasConcluidas();
+
 	}
 	else if($acao == 'recuperarTodasTarefas') {
+
 		$tarefa = new Tarefa();
 		$conexao = new Conexao();
 

@@ -46,7 +46,15 @@
 									<div class="form-group">
 										<label>Descrição da tarefa:</label>
 										<input type="text" class="form-control" name="tarefa" placeholder="Exemplo: Lavar o carro">
+										<label>Prioridade da tarefa:</label>
+										<select class="form-control" name="prioridade">
+											<option value="1">Baixa</option>
+											<option value="2">Média</option>
+											<option value="3">Alta</option>
+										</select>
 									</div>
+
+									
 
 									<button class="btn btn-success">Cadastrar</button>
 								</form>
