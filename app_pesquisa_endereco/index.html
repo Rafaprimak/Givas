@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Pesquisa Endereço</title>
+
+    <script>
+
+        function getDadosEnderecoPorCEP(cep){
+            let url = `https://viacep.com.br/ws/`+cep+`/json/`;
+
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.open('GET', url);
+
+            xmlHttp.onreadystatechange = () => {
+                if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+                    let dadosJSON = xmlHttp.responseText;
+                    let dadosJSONObj = JSON.parse(dadosJSON);
+
+                    document.getElementById("endereco").value = dadosJSONObj.logradouro;
+                    document.getElementById("bairro").value = dadosJSONObj.bairro;
+                    document.getElementById("localidade").value = dadosJSONObj.localidade;
+                    document.getElementById("uf").value = dadosJSONObj.uf;
+
+                }
+            }
+            xmlHttp.send();
+        }
+
+    </script>
+</head>
+<body>
+    
+    <nav>
+        <h3>App Pesquisa de Endereço</h3>
+    </nav>
+    <div>
+        <input type="text" placeholder="CEP" onblur="getDadosEnderecoPorCEP(this.value)"/>
+        <input type="text" placeholder="Endereço" readonly id="endereco"/>
+        <input type="text" placeholder="Bairro" readonly id="bairro"/>
+        <input type="text" placeholder="Localidade" readonly id="localidade"/>
+        <input type="text" placeholder="UF" readonly id="uf"/>
+    </div>
+
+</body>
+</html>
